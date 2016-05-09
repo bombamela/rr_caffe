@@ -1,5 +1,6 @@
 FROM nvidia/cuda:7.0-cudnn4-devel
 ENV CAFFE_VERSION 0.14
+ENV RR_CONTAINER hmlatapie/rr_caffe
 LABEL com.nvidia.caffe.version="0.14"
 ENV CAFFE_PKG_VERSION 0.14.2-1
 
