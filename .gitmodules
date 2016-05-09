@@ -1,3 +1,6 @@
 [submodule "reproducible_research"]
 	path = reproducible_research
 	url = https://github.com/hmlatapie/reproducible_research
+[submodule "nvidia-docker"]
+	path = nvidia-docker
+	url = https://github.com/NVIDIA/nvidia-docker
