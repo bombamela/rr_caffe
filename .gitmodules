@@ -1,0 +1,3 @@
+[submodule "reproducible_research"]
+	path = reproducible_research
+	url = https://github.com/hmlatapie/reproducible_research
