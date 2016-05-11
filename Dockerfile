@@ -14,6 +14,22 @@ RUN apt-get install -y man
 RUN apt-get install -y vim
 RUN apt-get install -y git
 
+#install nvidia's flavor of caffe from source
+RUN cd /root \
+	&& git clone https://github.com/NVIDIA/caffe.git \
+	&& cd caffe \
+	&& for req in $(cat python/requirements.txt) pydot; do pip install $req; done \
+	&& mkdir build \
+	&& cd build \
+	&& cmake -DUSE_CUDNN=1 .. \
+ 	&& make -j"$(nproc)"
+
+#install apollo caffe
+RUN cd /root \
+	&& git clone http://github.com/Russell91/apollocaffe.git \
+	&& cd apollocaffe \
+	&& for req in $(cat python/requirements.txt); do pip install $req; done 
+
 #install mongo
 RUN pip install pymongo
 
