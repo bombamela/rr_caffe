@@ -1,4 +1,4 @@
-FROM nvidia/cuda:7.0-cudnn4-devel
+FROM nvidia/cuda:7.0-cudnn3-devel
 ENV CAFFE_VERSION 0.14
 ENV RR_CONTAINER hmlatapie/rr_caffe
 LABEL com.nvidia.caffe.version="0.14"
@@ -15,6 +15,27 @@ RUN apt-get install -y vim
 RUN apt-get install -y git
 
 #install nvidia's flavor of caffe from source
+RUN apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        libatlas-base-dev \
+        libboost-all-dev \
+        libgflags-dev \
+        libgoogle-glog-dev \
+        libhdf5-serial-dev \
+        libleveldb-dev \
+        liblmdb-dev \
+        libopencv-dev \
+        libprotobuf-dev \
+        libsnappy-dev \
+        protobuf-compiler \
+        python-dev \
+        python-numpy \
+        python-pip \
+        python-scipy
+
 RUN cd /root \
 	&& git clone https://github.com/NVIDIA/caffe.git \
 	&& cd caffe \
