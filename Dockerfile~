@@ -58,14 +58,12 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 #install apollo caffe
 RUN cd /tmp \
    && git clone https://github.com/hmlatapie/rr_caffe \
-  	&& cd /root 
+  	&& cd /root  \
 	&& git clone http://github.com/Russell91/apollocaffe.git \
 	&& cd apollocaffe \
    && cp /tmp/rr_caffe/install_test/Makefile.config . \
 	&& for req in $(cat python/requirements.txt); do pip install $req; done \
-   && make -j"$(nproc)" \
-   && make test -j"$(nproc)" \
-   && make runtest
+   && make -j"$(nproc)" 
 
 #install mongo
 RUN pip install pymongo
