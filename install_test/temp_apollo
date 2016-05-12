@@ -1,0 +1,5 @@
+cd /root \
+	&& git clone http://github.com/Russell91/apollocaffe.git \
+	&& cd apollocaffe \
+	&& for req in $(cat python/requirements.txt); do pip install $req; done 
+

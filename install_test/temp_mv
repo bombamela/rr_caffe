@@ -1,0 +1,45 @@
+#!/bin/bash
+apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y aptitude \
+  && apt-get install -y ipython \
+  && apt-get install -y python-pip \
+  && apt-get install -y man \
+  && apt-get install -y vim \
+  && apt-get install -y git 
+
+apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        libatlas-base-dev \
+        libboost-all-dev \
+        libgflags-dev \
+        libgoogle-glog-dev \
+        libhdf5-serial-dev \
+        libleveldb-dev \
+        liblmdb-dev \
+        libopencv-dev \
+        libprotobuf-dev \
+        libsnappy-dev \
+        protobuf-compiler \
+        python-dev \
+        python-numpy \
+        python-pip \
+        python-scipy
+
+#	&& git clone https://github.com/NVIDIA/caffe.git \
+cd /root \
+   && git clone https://github.com/BVLC/caffe.git  \
+	&& cd caffe \
+	&& for req in $(cat python/requirements.txt) pydot; do pip install $req; done \
+	&& mkdir build \
+	&& cd build \
+	&& cmake -DUSE_CUDNN=1 .. \
+ 	&& make -j"$(nproc)"
+
+
+echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
+
+

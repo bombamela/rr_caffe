@@ -1,0 +1,8 @@
+export CAFFE_ROOT=/opt/caffe
+export CLONE_TAG=master
+export PYCAFFE_ROOT=$CAFFE_ROOT/python
+export PYTHONPATH=$PYCAFFE_ROOT:$PYTHONPATH
+export PATH=$CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/apollocaffe/build/lib
+export PYTHONPATH=$PYTHONPATH:/root/apollocaffe/python
