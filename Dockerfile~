@@ -12,6 +12,7 @@ RUN apt-get update \
   && apt-get install -y python-pip \
   && apt-get install -y man \
   && apt-get install -y vim \
+  && apt-get install -y wget \
   && apt-get install -y git 
 
 #install nvidia's flavor of caffe from source
@@ -57,8 +58,8 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 #install apollo caffe
 RUN cd /root \
 	&& git clone http://github.com/Russell91/apollocaffe.git \
-   && ln -s Makefile.conifg apollocaffe \
 	&& cd apollocaffe \
+ 	&& wget https://github.com/hmlatapie/rr_caffe/blob/master/install_test/Makefile.config \
 	&& for req in $(cat python/requirements.txt); do pip install $req; done \
    && make -j"$(nproc)" \
    && make test -j"$(nproc)" \
