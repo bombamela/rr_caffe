@@ -1,18 +1,18 @@
-FROM nvidia/cuda:7.0-cudnn3-devel
+FROM nvidia/cuda:7.0-cudnn4-devel
 ENV CAFFE_VERSION 0.14
 ENV RR_CONTAINER hmlatapie/rr_caffe
 LABEL com.nvidia.caffe.version="0.14"
 ENV CAFFE_PKG_VERSION 0.14.2-1
 
 #install basic environment
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y aptitude
-RUN apt-get install -y ipython
-RUN apt-get install -y python-pip
-RUN apt-get install -y man
-RUN apt-get install -y vim
-RUN apt-get install -y git
+RUN apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y aptitude \
+  && apt-get install -y ipython \
+  && apt-get install -y python-pip \
+  && apt-get install -y man \
+  && apt-get install -y vim \
+  && apt-get install -y git 
 
 #install nvidia's flavor of caffe from source
 RUN apt-get install -y --no-install-recommends \
@@ -36,8 +36,15 @@ RUN apt-get install -y --no-install-recommends \
         python-pip \
         python-scipy
 
+ENV CAFFE_ROOT=/root/caffe
+ENV PYCAFFE_ROOT $CAFFE_ROOT/python
+ENV PYTHONPATH $PYCAFFE_ROOT:$PYTHONPATH
+ENV PATH $CAFFE_ROOT/build/tools:$PYTHON_ROOT:$PATH
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/apollocaffe/build/lib
+ENV PYTHONPATH=$PYTHONPATH:/root/apollocaffe/python
+
 RUN cd /root \
-	&& git clone https://github.com/NVIDIA/caffe.git \
+	&& git clone https://github.com/BVLC/caffe.git \
 	&& cd caffe \
 	&& for req in $(cat python/requirements.txt) pydot; do pip install $req; done \
 	&& mkdir build \
@@ -45,11 +52,17 @@ RUN cd /root \
 	&& cmake -DUSE_CUDNN=1 .. \
  	&& make -j"$(nproc)"
 
+RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
+
 #install apollo caffe
 RUN cd /root \
 	&& git clone http://github.com/Russell91/apollocaffe.git \
+   && ln -s Makefile.conifg apollocaffe \
 	&& cd apollocaffe \
-	&& for req in $(cat python/requirements.txt); do pip install $req; done 
+	&& for req in $(cat python/requirements.txt); do pip install $req; done \
+   && make -j"$(nproc)" \
+   && make test -j"$(nproc)" \
+   && make runtest
 
 #install mongo
 RUN pip install pymongo
