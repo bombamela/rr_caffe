@@ -77,6 +77,12 @@ RUN apt-get install -y --no-install-recommends --force-yes \
             python-caffe-nv=$CAFFE_PKG_VERSION && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get upgrade -y && apt-get install python-opencv \
+	&& pip install drawnow \
+	&& pip install sympy \
+	&& pip install munkres \
+	&& cpan YAML:Syck
+
 VOLUME /root/rr
 WORKDIR /root
 
