@@ -81,7 +81,15 @@ RUN apt-get update && apt-get upgrade -y && apt-get install python-opencv \
 	&& pip install drawnow \
 	&& pip install sympy \
 	&& pip install munkres \
-	&& cpan YAML:Syck
+	&& cpan YAML:Syck \
+	&& apt-get install -y gfortran \
+	&& pip install Flask \
+	&& pip install --upgrade numpy \
+	&& pip install --upgrade cv2 \
+	&& pip install --upgrade sympy \
+	&& pip install --upgrade scipy \
+	&& pip install --upgrade munkres \
+	&& pip install --upgrade Flask
 
 VOLUME /root/rr
 WORKDIR /root
