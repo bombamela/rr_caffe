@@ -1,4 +1,4 @@
-FROM nvidia/cuda:7.0-cudnn4-devel
+FROM nvidia/cuda:8.0-cudnn5-devel
 ENV CAFFE_VERSION 0.14
 ENV RR_CONTAINER hmlatapie/rr_caffe
 LABEL com.nvidia.caffe.version="0.14"
